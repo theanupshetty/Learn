@@ -7,10 +7,12 @@ using Angular.Data;
 using Angular.Entities;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Angular.api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    //[EnableCors("AllowOrigin")]
     public class UsersController : ControllerBase
     {
         private readonly DataContext _context;

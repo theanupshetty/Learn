@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Angular.Data;
 
+
 namespace Angular
 {
     public class Startup
@@ -31,6 +32,10 @@ namespace Angular
         {
 
             services.AddControllers();
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
@@ -54,6 +59,8 @@ namespace Angular
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(options => options.AllowAnyHeader().WithOrigins("https://localhost:4200"));
 
             app.UseAuthorization();
 
