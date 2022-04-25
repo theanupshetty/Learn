@@ -4,33 +4,35 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Angular.Data;
-using Angular.Entities;
+using Angular.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Angular.implementations;
+using Angular.interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Angular.api.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    //[EnableCors("AllowOrigin")]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseApiController
     {
-        private readonly DataContext _context;
-        public UsersController(DataContext context)
+        private readonly IUsers<AppUser> _users;
+
+        public UsersController(IUsers<AppUser> users)
         {
-            _context = context;
+            _users = users;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+        [Authorize]
+        public async Task<IEnumerable<AppUser>> GetUsers()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _users.GetUsersAsync();
             return users;
         }
         [HttpGet("{id}")]
-        public ActionResult<AppUser> GetUsers(int id)
+
+        public async Task<AppUser> GetUsers(string id)
         {
-            return _context.Users.Find(id);
+            return await _users.GetUserAsync(id);
 
         }
     }
