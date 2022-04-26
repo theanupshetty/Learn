@@ -40,10 +40,7 @@ namespace Angular
             services.AddControllers();
             services.AddApplicationServices(Configuration);
             services.AddAuthenticationServices(Configuration);
-            services.AddCors(c =>
-            {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-            });
+            services.AddCorsServices();
 
             services.AddSwaggerGen(c =>
             {

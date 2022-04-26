@@ -9,7 +9,7 @@ using Angular.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
+
 
 namespace api.Extensions
 {
@@ -22,6 +22,14 @@ namespace api.Extensions
             services.AddDbContext<DataContext>(options =>
            {
                options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+           });
+            return services;
+        }
+        public static IServiceCollection AddCorsServices(this IServiceCollection services)
+        {
+            services.AddCors(c =>
+           {
+               c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
            });
             return services;
         }
