@@ -22,7 +22,7 @@ namespace Angular.api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+
         public async Task<IEnumerable<AppUser>> GetUsers()
         {
             var users = await _users.GetUsersAsync();
