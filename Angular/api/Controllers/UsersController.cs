@@ -31,12 +31,12 @@ namespace Angular.api.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUserById(int id)
-        {
-            var users = await _users.GetUserByIdAsync(id);
-            return Ok(users);
-        }
+        // [HttpGet("{id}")]
+        // public async Task<ActionResult<IEnumerable<AppUser>>> GetUserById(int id)
+        // {
+        //     var users = await _users.GetUserByIdAsync(id);
+        //     return Ok(users);
+        // }
         [HttpGet("{username}")]
         public async Task<ActionResult<MemberDto>> GetUserByUsernameAsync(string username)
         {
