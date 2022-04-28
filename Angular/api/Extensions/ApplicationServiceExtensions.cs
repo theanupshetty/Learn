@@ -6,6 +6,7 @@ using Angular.Data;
 using Angular.implementations;
 using Angular.interfaces;
 using Angular.Models;
+using api.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,7 @@ namespace api.Extensions
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUsers<AppUser>, Users>();
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options =>
            {
                options.UseSqlServer(config.GetConnectionString("DefaultConnection"));

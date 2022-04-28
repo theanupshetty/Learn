@@ -9,9 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using Angular.implementations;
 using Angular.interfaces;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using api.DTOs;
 
 namespace Angular.api.Controllers
 {
+    [Authorize]
     public class UsersController : BaseApiController
     {
         private readonly IUsers<AppUser> _users;
@@ -22,18 +25,23 @@ namespace Angular.api.Controllers
         }
 
         [HttpGet]
-
-        public async Task<IEnumerable<AppUser>> GetUsers()
+        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {
-            var users = await _users.GetUsersAsync();
-            return users;
+            var users = await _users.GetMembersAsync();
+            return Ok(users);
         }
+
         [HttpGet("{id}")]
-
-        public async Task<AppUser> GetUsers(string id)
+        public async Task<ActionResult<IEnumerable<AppUser>>> GetUserById(int id)
         {
-            return await _users.GetUserAsync(id);
-
+            var users = await _users.GetUserByIdAsync(id);
+            return Ok(users);
+        }
+        [HttpGet("{username}")]
+        public async Task<ActionResult<MemberDto>> GetUserByUsernameAsync(string username)
+        {
+            var users = await _users.GetMemberAsync(username);
+            return Ok(users);
         }
     }
 }

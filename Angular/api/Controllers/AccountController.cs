@@ -48,7 +48,7 @@ namespace Angular.api.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(Login loginDto)
         {
-            var user = await _users.GetUserAsync(loginDto.UserName);
+            var user = await _users.GetUserByUsernameAsync(loginDto.UserName);
             if (user == null) return Unauthorized("Invalid username");
             using var hamc = new HMACSHA512(user.PasswordSalt);
             var computedHash = hamc.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
