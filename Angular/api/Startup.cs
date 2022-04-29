@@ -66,7 +66,7 @@ namespace Angular
 
             app.UseRouting();
 
-            app.UseCors(options => options.AllowAnyHeader().WithOrigins("https://localhost:4200"));
+            app.UseCors("AllowSpecificOrigin");
 
             app.UseAuthentication();
             app.UseAuthorization();

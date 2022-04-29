@@ -47,6 +47,7 @@ namespace Angular.implementations
         }
         public void Update(AppUser model)
         {
+
             _context.Entry(model).State = EntityState.Modified;
             //bool res = await SaveAllAsync();
         }

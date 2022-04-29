@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,12 @@ namespace Angular.api.Controllers
     public class UsersController : BaseApiController
     {
         private readonly IUsers<AppUser> _users;
+        private readonly IMapper _mapper;
 
-        public UsersController(IUsers<AppUser> users)
+        public UsersController(IUsers<AppUser> users, IMapper mapper)
         {
             _users = users;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -42,6 +45,17 @@ namespace Angular.api.Controllers
         {
             var users = await _users.GetMemberAsync(username);
             return Ok(users);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
+        {
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _users.GetUserByUsernameAsync(username);
+            _mapper.Map(memberUpdateDto, user);
+            _users.Update(user);
+            if (await _users.SaveAllAsync()) return NoContent();
+            return BadRequest("Failed to update");
         }
     }
 }

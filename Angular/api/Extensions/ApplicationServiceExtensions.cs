@@ -31,7 +31,9 @@ namespace api.Extensions
         {
             services.AddCors(c =>
            {
-               c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+               c.AddPolicy("AllowSpecificOrigin",
+               options => options.AllowAnyHeader().AllowAnyMethod().
+               WithOrigins("https://localhost:4200"));
            });
             return services;
         }
